@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CommuteSync | Next-Gen Multi-Modal Car & Bike Pooling</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary: #009688;
+            --primary-light: #26a69a;
+            --secondary: #6200EA;
+            --accent: #FF6D00;
+            --bg-color: #F5F5F5;
+            --card-bg: #FFFFFF;
+            --text-main: #121212;
+            --text-muted: #666666;
+            --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.05);
+            --shadow-hover: 0 20px 40px rgba(0, 150, 136, 0.12);
+            --radius-lg: 24px;
+            --radius-md: 16px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* Navigation Bar */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            background: rgba(245, 245, 245, 0.85);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+        }
+
+        .nav-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--text-main);
+        }
+
+        .logo-icon {
+            width: 42px;
+            height: 42px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 20px;
+            box-shadow: 0 8px 16px rgba(0, 150, 136, 0.2);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 32px;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-muted);
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .btn {
+            background: var(--primary);
+            color: white;
+            padding: 12px 28px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            box-shadow: 0 8px 20px rgba(0, 150, 136, 0.25);
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 25px rgba(0, 150, 136, 0.35);
+            background: var(--primary-light);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--text-main);
+            border: 2px solid #ddd;
+            box-shadow: none;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(0,0,0,0.03);
+            border-color: var(--text-main);
+            color: var(--text-main);
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 180px 40px 100px;
+            max-width: 1280px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1.1fr 0.9fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .hero-content h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 56px;
+            line-height: 1.1;
+            margin-bottom: 24px;
+            letter-spacing: -1px;
+        }
+
+        .hero-content h1 span {
+            color: var(--primary);
+            position: relative;
+        }
+
+        .hero-content p {
+            font-size: 18px;
+            color: var(--text-muted);
+            margin-bottom: 40px;
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: 16px;
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 40px;
+            margin-top: 50px;
+            padding-top: 30px;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .stat-item h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 28px;
+            color: var(--secondary);
+        }
+
+        .stat-item p {
+            font-size: 14px;
+            color: var(--text-muted);
+            margin-bottom: 0;
+        }
+
+        .hero-visual {
+            position: relative;
+        }
+
+        .mockup-card {
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-soft);
+            position: relative;
+            z-index: 2;
+            border: 1px solid rgba(0,0,0,0.03);
+        }
+
+        .mockup-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .route-badge {
+            background: rgba(0, 150, 136, 0.1);
+            color: var(--primary);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .route-path {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 24px;
+            padding: 16px;
+            background: #fafafa;
+            border-radius: var(--radius-md);
+        }
+
+        .route-path i {
+            color: var(--accent);
+            font-size: 18px;
+        }
+
+        .floating-badge {
+            position: absolute;
+            bottom: -20px;
+            right: -20px;
+            background: var(--card-bg);
+            padding: 16px 24px;
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-soft);
+            z-index: 3;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border: 1px solid rgba(0,0,0,0.03);
+        }
+
+        .floating-badge i {
+            color: var(--primary);
+            font-size: 24px;
+        }
+
+        /* Features Section */
+        .features {
+            padding: 100px 40px;
+            max-width: 1280px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto 60px;
+        }
+
+        .section-header h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 38px;
+            margin-bottom: 16px;
+            letter-spacing: -0.5px;
+        }
+
+        .section-header p {
+            color: var(--text-muted);
+            font-size: 16px;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .feature-card {
+            background: var(--card-bg);
+            padding: 40px 30px;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-soft);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(0,0,0,0.02);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .feature-icon {
+            width: 64px;
+            height: 64px;
+            border-radius: var(--radius-md);
+            background: rgba(0, 150, 136, 0.08);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            font-size: 28px;
+            margin-bottom: 24px;
+        }
+
+        .feature-card h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 20px;
+            margin-bottom: 12px;
+        }
+
+        .feature-card p {
+            color: var(--text-muted);
+            font-size: 15px;
+        }
+
+        /* Architecture / DFD Section */
+        .architecture {
+            background: #121212;
+            color: white;
+            padding: 100px 40px;
+            margin: 60px 0;
+        }
+
+        .architecture .section-header h2 {
+            color: white;
+        }
+
+        .architecture .section-header p {
+            color: #aaa;
+        }
+
+        .dfd-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 24px;
+        }
+
+        .dfd-node {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            border-radius: var(--radius-md);
+            transition: all 0.3s;
+        }
+
+        .dfd-node:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: var(--primary);
+        }
+
+        .dfd-node span {
+            display: inline-block;
+            color: var(--accent);
+            font-weight: 700;
+            font-size: 13px;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .dfd-node h4 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .dfd-node p {
+            color: #aaa;
+            font-size: 14px;
+        }
+
+        /* Gamification & Leaderboard Section */
+        .gamification {
+            padding: 100px 40px;
+            max-width: 1280px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .gamification-content h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 38px;
+            margin-bottom: 20px;
+        }
+
+        .gamification-content p {
+            color: var(--text-muted);
+            margin-bottom: 30px;
+            font-size: 16px;
+        }
+
+        .badge-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .badge-row {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            background: var(--card-bg);
+            padding: 16px 20px;
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-soft);
+        }
+
+        .badge-row i {
+            font-size: 24px;
+            color: var(--accent);
+            background: rgba(255, 109, 0, 0.1);
+            padding: 12px;
+            border-radius: 12px;
+        }
+
+        .badge-info h4 {
+            font-size: 16px;
+            margin-bottom: 2px;
+        }
+
+        .badge-info p {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin: 0;
+        }
+
+        .leaderboard-preview {
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-soft);
+            border: 1px solid rgba(0,0,0,0.03);
+        }
+
+        .leaderboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .leaderboard-user {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid #f5f5f5;
+        }
+
+        .user-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .avatar {
+            width: 40px;
+            height: 40px;
+            background: #e0e0e0;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: var(--text-muted);
+        }
+
+        /* Footer */
+        footer {
+            background: #0d0d0d;
+            color: #888;
+            padding: 60px 40px 30px;
+        }
+
+        .footer-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding-bottom: 40px;
+            margin-bottom: 30px;
+        }
+
+        .footer-logo {
+            color: white;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 22px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 24px;
+            list-style: none;
+        }
+
+        .footer-links a {
+            color: #888;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        .footer-bottom {
+            max-width: 1280px;
+            margin: 0 auto;
+            text-align: center;
+            font-size: 14px;
+            color: #666;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 968px) {
+            .hero, .gamification {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+            .hero-content h1 {
+                font-size: 42px;
+            }
+            .nav-links {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header / Navbar -->
+    <header>
+        <div class="nav-container">
+            <a href="#" class="logo">
+                <div class="logo-icon"><i class="fa-solid fa-infinity"></i></div>
+                CommuteSync
+            </a>
+            <ul class="nav-links">
+                <li><a href="#features">Features</a></li>
+                <li><a href="#architecture">Architecture</a></li>
+                <li><a href="#gamification">Gamification</a></li>
+                <li><a href="#apis">Integrations</a></li>
+            </ul>
+            <a href="#cta" class="btn">Get App <i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Unified Micro-Mobility & <span>Ride-Sharing</span> Ecosystem</h1>
+            <p>Optimize your corporate ESG goals and daily commute with multi-modal matching, trust-graph verification, and blockchain-powered carbon rewards.</p>
+            <div class="hero-cta">
+                <a href="#" class="btn">Join Ecosystem <i class="fa-solid fa-chevron-right"></i></a>
+                <a href="#architecture" class="btn btn-secondary">Explore DFD</a>
+            </div>
+            <div class="hero-stats">
+                <div class="stat-item">
+                    <h3>45k+</h3>
+                    <p>Active Commuters</p>
+                </div>
+                <div class="stat-item">
+                    <h3>1.2M</h3>
+                    <p>Kg CO₂ Saved</p>
+                </div>
+                <div class="stat-item">
+                    <h3>100%</h3>
+                    <p>Verified Profiles</p>
+                </div>
+            </div>
+        </div>
+        <div class="hero-visual">
+            <div class="mockup-card">
+                <div class="mockup-header">
+                    <span class="route-badge"><i class="fa-solid fa-route"></i> Hybrid Route Optimized</span>
+                    <span style="font-size: 13px; color: var(--text-muted);">ETA: 24 mins</span>
+                </div>
+                <div class="route-path">
+                    <i class="fa-solid fa-bicycle"></i>
+                    <div>
+                        <strong style="font-size: 14px; display: block;">Phase 1: Eco-Bike Ride</strong>
+                        <span style="font-size: 12px; color: var(--text-muted);">2.4 miles to Park & Ride Hub</span>
+                    </div>
+                </div>
+                <div class="route-path" style="margin-bottom: 0;">
+                    <i class="fa-solid fa-car" style="color: var(--secondary);"></i>
+                    <div>
+                        <strong style="font-size: 14px; display: block;">Phase 2: EV Car-Pool</strong>
+                        <span style="font-size: 12px; color: var(--text-muted);">Matched with Alex W. (TechCorp)</span>
+                    </div>
+                </div>
+            </div>
+            <div class="floating-badge">
+                <i class="fa-solid fa-coins"></i>
+                <div>
+                    <strong style="font-size: 14px; display: block;">+12.4 GreenCredits</strong>
+                    <span style="font-size: 11px; color: var(--text-muted);">Minted to Carbon Ledger</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features">
+        <div class="section-header">
+            <h2>Next-Generation Commuting Features</h2>
+            <p>Built for efficiency, safety, and measurable environmental impact.</p>
+        </div>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fa-solid fa-shuffle"></i></div>
+                <h3>Dynamic Multi-Modal</h3>
+                <p>Combines micro-mobility and ride-sharing into optimized hybrid itineraries for maximum speed and minimal footprints.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon" style="background: rgba(98,0,234,0.08); color: var(--secondary);"><i class="fa-solid fa-shield-halved"></i></div>
+                <h3>Trust-Graph Verification</h3>
+                <p>Utilizes LinkedIn professional networks and mutual connections rather than basic ratings to ensure absolute commuting safety.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon" style="background: rgba(255,109,0,0.08); color: var(--accent);"><i class="fa-solid fa-cube"></i></div>
+                <h3>Blockchain Carbon Ledger</h3>
+                <p>Every shared mile is securely tokenized into tradable GreenCredits, redeemable for rewards, transit passes, or eco-donations.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Data Flow Diagram (DFD) Section -->
+    <section id="architecture" class="architecture">
+        <div class="section-header" style="margin-bottom: 50px;">
+            <h2>System Architecture & DFD Workflow</h2>
+            <p>Real-time event-driven processing engine driving instant matches and secure transactions.</p>
+        </div>
+        <div class="dfd-container">
+            <div class="dfd-node">
+                <span>Level 0 Core</span>
+                <h4>Context Integration</h4>
+                <p>Ingests real-time feeds from Commuters, Corporate Admins, Payment Gateways, and Map APIs.</p>
+            </div>
+            <div class="dfd-node">
+                <span>Level 1 Process</span>
+                <h4>Smart Match Engine</h4>
+                <p>Analyzes route overlap, multi-modal options, and verified trust thresholds to pair commuters safely.</p>
+            </div>
+            <div class="dfd-node">
+                <span>Level 1 Process</span>
+                <h4>Carbon Ledger</h4>
+                <p>Calculates precise CO2 savings via Climatiq data and mints blockchain GreenCredits automatically.</p>
+            </div>
+            <div class="dfd-node">
+                <span>Level 1 Process</span>
+                <h4>Safety & SOS Monitor</h4>
+                <p>Continuously tracks active trips, detects anomalies, and handles emergency triggers instantly.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gamification & Engagement Section -->
+    <section id="gamification" class="gamification">
+        <div class="gamification-content">
+            <h2>Gamified Sustainability & Rewards</h2>
+            <p>Transform daily travel into an engaging, rewarding routine. Compete with colleagues, unlock unique status badges, and hit corporate ESG targets together.</p>
+            <div class="badge-list">
+                <div class="badge-row">
+                    <i class="fa-solid fa-cloud-rain"></i>
+                    <div class="badge-info">
+                        <h4>Rain Warrior</h4>
+                        <p>Completed 5 multi-modal commutes during inclement weather conditions.</p>
+                    </div>
+                </div>
+                <div class="badge-row">
+                    <i class="fa-solid fa-seedling" style="color: var(--primary); background: rgba(0,150,136,0.1);"></i>
+                    <div class="badge-info">
+                        <h4>Zero-Carbon Hero</h4>
+                        <p>Achieved 100% green commutes for a consecutive 30-day period.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="leaderboard-preview">
+            <div class="leaderboard-header">
+                <h3><i class="fa-solid fa-trophy" style="color: #FFD700; margin-right: 8px;"></i> Corporate ESG Leaderboard</h3>
+                <span style="font-size: 13px; color: var(--text-muted);">This Month</span>
+            </div>
+            <div class="leaderboard-user">
+                <div class="user-left">
+                    <span style="font-weight:700; color:var(--primary); width:20px;">1</span>
+                    <div class="avatar" style="background: rgba(0,150,136,0.1); color: var(--primary);">SJ</div>
+                    <div>
+                        <strong style="font-size: 14px; display: block;">Sarah Jenkins</strong>
+                        <span style="font-size: 12px; color: var(--text-muted);">TechCorp Engineering</span>
+                    </div>
+                </div>
+                <span style="font-weight: 700; color: var(--primary); font-size: 14px;">142 kg CO₂</span>
+            </div>
+            <div class="leaderboard-user">
+                <div class="user-left">
+                    <span style="font-weight:700; color:var(--text-muted); width:20px;">2</span>
+                    <div class="avatar">MR</div>
+                    <div>
+                        <strong style="font-size: 14px; display: block;">Marcus Ross</strong>
+                        <span style="font-size: 12px; color: var(--text-muted);">Design Hub</span>
+                    </div>
+                </div>
+                <span style="font-weight: 700; color: var(--text-muted); font-size: 14px;">128 kg CO₂</span>
+            </div>
+            <div class="leaderboard-user" style="border-bottom: none;">
+                <div class="user-left">
+                    <span style="font-weight:700; color:var(--text-muted); width:20px;">3</span>
+                    <div class="avatar">EL</div>
+                    <div>
+                        <strong style="font-size: 14px; display: block;">Elena Rostova</strong>
+                        <span style="font-size: 12px; color: var(--text-muted);">FinTech Solutions</span>
+                    </div>
+                </div>
+                <span style="font-weight: 700; color: var(--text-muted); font-size: 14px;">115 kg CO₂</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-container">
+            <a href="#" class="footer-logo">
+                <div class="logo-icon" style="width: 32px; height: 32px; font-size: 16px;"><i class="fa-solid fa-infinity"></i></div>
+                CommuteSync
+            </a>
+            <ul class="footer-links">
+                <li><a href="#features">Features</a></li>
+                <li><a href="#architecture">Architecture</a></li>
+                <li><a href="#gamification">Gamification</a></li>
+                <li><a href="#">Privacy Policy</a></li>
+            </ul>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 CommuteSync Platform Inc. All rights reserved. Powered by Advanced Multi-Modal DFD Architecture.</p>
+        </div>
+    </footer>
+
+</body>
+</html>
